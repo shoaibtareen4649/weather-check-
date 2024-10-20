@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #5bc0de, #2c3e50);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Add the following line to remove the flex alignment */
+    align-items: stretch;
+}
+
+.container {
+    max-width: 1000px;
+    width: 100%; /* Set width to 100% */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    /* Removed box-shadow */
+    /* Add the following lines to make the container take up the full height */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .weather-app-title {
+            font-size: 30px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 60%;
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            color: black;
+            transition: background 0.3s ease;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            background-color: #fff;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar select {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            color: black;
+            cursor: pointer;
+        }
+
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .user-profile:hover {
+            transform: scale(1.1);
+        }
+
+        .content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .sidebar-item:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .main-content {
+            flex-grow: 1;
+        }
+
+        .weather-data {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    color: #fff;
+    width: 100%; /* Ensure full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+        .weather-data h2 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        .charts {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .chart {
+            flex: 1;
+            height: 250px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .chart:hover {
+            transform: scale(1.05);
+        }
+
+        .chart i {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .chart {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .chart:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .chart:nth-child(3) {
+            animation-delay: 2s;
+        }
+        .chart-container {
+    display: flex;
+    justify-content: space-around;
+}
+a {
+    text-decoration: none;
+}
+.sidebar-item a {
+    text-decoration: none;
+}
+
+.chart-container > div {
+    flex: 1 0 0; /* This will make each chart take up an equal amount of space */
+}
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="weather-app-title">Weather App</div>
+            <div class="search-bar">
+                <input id="cityInput" type="text" placeholder="Enter city name">
+                <button id="submitButton"><i class="fas fa-search"></i></button>
+                <select id="unitSelect">
+                    <option value="metric">Celsius</option>
+                    <option value="imperial">Fahrenheit</option>
+                </select>
+            </div>
+            <div class="user-profile">
+                <i class="fas fa-user"></i>
+            </div>
+        </header>
+        <div class="content">
+            <div class="sidebar">
+                <a href="index.html">
+                    <div class="sidebar-item"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+                </a>
+                <a href="table.html">
+                    <div class="sidebar-item"><i class="fas fa-table"></i> Tables</div>
+                </a>            </div>
+            <div class="main-content">
+                <div class="weather-data" id="weatherDisplay">
+                    <h2>Weather Data Based on City</h2>
+                    <p>Enter a city name in the search bar to get weather information.</p>
+                </div>
+                <div class="charts">
+                    <div class="chart">
+                        <i class="fas fa-chart-bar"></i>
+                        <canvas id="barChart"></canvas>
+                        Vertical Bar Chart
+                    </div>
+                    <div class="chart">
+                        <i class="fas fa-chart-pie"></i>
+                        <canvas id="doughnutChart"></canvas>
+                        Doughnut Chart
+                    </div>
+                    <div class="chart">
+                        <i class="fas fa-chart-line"></i>
+                        <canvas id="lineChart"></canvas>
+                        Line Chart
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="weather.js"></script>
+</body>
+
+</html>
